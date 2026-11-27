@@ -1,0 +1,34 @@
+# Project-Integrity Audit Checklist
+
+- [x] **Existing Core Code Preserved:** All 26 original files in `NiftySellerFootprint` retained and refined without discarding functionality.
+- [x] **Domain Models (`DomainModels.kt`):** Complete immutable data structures for contracts, participant OI, index snapshots, volatility, expiries, microstructure metrics, patterns (`P1`–`P7`, `NP1`–`NP3`), zones (`S1`, `S2`, `R1`, `R2`), and research audit trails.
+- [x] **Data & Calendar Layer:**
+  - [x] `TradingCalendarEngine.kt` (IST validation, weekend & 2024–2026 holiday filtering, backward window generator)
+  - [x] `ExpiryResolver.kt` (Bhavcopy contract expiry extraction + pre-download Sep-2025 Thursday/Tuesday calendar preview)
+  - [x] `NseReportFetcher.kt` & `NseNetworkClient.kt` (OkHttp cookie-jar session warmup + UDiFF/legacy fallback URLs)
+  - [x] `NseReportParsers.kt` (ZIP extraction, BOM-safe CSV parsing, lot normalization)
+  - [x] `TempStorageManager.kt` & `NseDataRepository.kt` (22-session assembly, caching, isolated cleanup)
+  - [x] `AnalysisHistoryStore.kt` (TSV persistence in `filesDir`, decoupled from temporary cache)
+- [x] **Analytical Engine Layer:**
+  - [x] `MultiStrikeAnalyzer.kt` (95% cumulative OI mass + 2.5-sigma volatility envelope, Z-score, PRR, ATS, persistence, vertical roll linkage)
+  - [x] `PatternDiscoveryEngine.kt` (4-phase split: `Sessions 1–17` discovery, `Sessions 18–21` validation & novel discovery, `Ledger D` synthesis, `Session 22` blind test)
+  - [x] `ZoneDerivationEngine.kt` (Non-overlapping narrow `S1`, `S2`, `R1`, `R2` zones with DTE-weighted premium cushion & evidence grading)
+  - [x] `AnalysisOrchestrator.kt` (End-to-end execution & audit summary assembly)
+- [x] **UI Layer:**
+  - [x] `MainActivity.kt`, `MainViewModel.kt`, `MainScreen.kt`, `Theme.kt` (Single-screen Material 3 Compose UI with DatePicker, Expiry dropdown, 4 Zone cards, Audit Trail, History, Theme toggle, and Delete Temporary Files confirmation dialog)
+- [x] **JUnit 4 Test Suite (`app/src/test/java/com/nifty/sellerfootprint/`):**
+  - [x] `TradingCalendarAndExpiryTest.kt`
+  - [x] `NseParsersStorageAndHistoryTest.kt`
+  - [x] `TwentyTwoSessionAnalyticalEngineTest.kt`
+- [x] **Gradle, Resources & CI/CD:**
+  - [x] `build.gradle.kts`, `settings.gradle.kts`, `gradle.properties`, `app/build.gradle.kts`, `app/proguard-rules.pro`
+  - [x] `gradlew`, `gradlew.bat`, `gradle/wrapper/gradle-wrapper.properties`
+  - [x] `AndroidManifest.xml`, `strings.xml`, `themes.xml`, `ic_launcher_foreground.xml`, `ic_launcher_background.xml`, `mipmap-anydpi-v26/ic_launcher*.xml`
+  - [x] `.github/workflows/build-apk.yml` & `.gitignore`
+- [x] **Documentation (`README.md` & `docs/`):**
+  - [x] `README.md`
+  - [x] `docs/RESEARCH_METHODOLOGY.md`
+  - [x] `docs/NSE_DATA_SOURCES.md`
+  - [x] `docs/TESTING_REPORT.md`
+  - [x] `docs/TROUBLESHOOTING.md`
+  - [x] `docs/PROJECT_INTEGRITY_CHECKLIST.md`
